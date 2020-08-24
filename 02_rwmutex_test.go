@@ -1,4 +1,4 @@
-package main
+package concLesson
 
 import (
 	"strconv"
@@ -22,14 +22,14 @@ type someObject struct {
 	someState map[string]uint64
 }
 
-func NewObject() someObject {
+func newObject() someObject {
 	return someObject{
 		someState: make(map[string]uint64),
 	}
 }
 
 func SimpleMutex(b *testing.B) {
-	example := NewObject()
+	example := newObject()
 
 	done := make(chan bool, doneLen)
 
@@ -135,7 +135,7 @@ func TestSimpleMutexWithoutDancing(t *testing.T) {
 	for i := uint64(0); i < goroutineCount; i++ {
 		i := i
 		go func() {
-			_ = example.GetValue("name"+strconv.FormatUint(i, 10))
+			_ = example.GetValue("name" + strconv.FormatUint(i, 10))
 
 			done <- true
 		}()

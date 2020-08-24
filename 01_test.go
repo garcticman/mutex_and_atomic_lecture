@@ -1,4 +1,4 @@
-package main
+package concLesson
 
 import (
 	"fmt"
@@ -16,7 +16,6 @@ func TestWithoutMutex(t *testing.T) {
 		i := i
 		go func() {
 			for counter = 0; counter < 5; counter++ {
-				counter++
 				fmt.Printf("goroutine: %d, counter = %d \n", i, counter)
 			}
 			done <- true
@@ -39,8 +38,8 @@ func TestSyncMutex(t *testing.T) {
 			for counter = 0; counter < 5; counter++ {
 				fmt.Printf("goroutine: %d, counter = %d \n", i, counter)
 			}
-			done <- true
 			mutex.Unlock()
+			done <- true
 		}()
 	}
 	for i := 0; i < 3; i++ {
