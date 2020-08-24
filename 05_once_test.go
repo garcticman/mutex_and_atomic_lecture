@@ -125,16 +125,16 @@ func TestStartStopStates(_ *testing.T) {
 	cast := newForecaster(city)
 
 	go cast.start()
-	go cast.start()
-	go cast.start()
-	go cast.start()
+	//go cast.start()
+	//go cast.start()
+	//go cast.start()
 
 	time.Sleep(10 * time.Second)
 
 	go cast.stop()
-	go cast.stop()
-	go cast.stop()
-	go cast.stop()
+	//go cast.stop()
+	//go cast.stop()
+	//go cast.stop()
 
 	fmt.Println("DONE")
 }

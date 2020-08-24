@@ -9,7 +9,7 @@ import (
 
 // race example
 func TestWithoutMutex(t *testing.T) {
-	done := make(chan bool, 3)
+	done := make(chan struct{}, 3)
 
 	counter := 0
 	for i := 0; i < 3; i++ {
@@ -18,7 +18,7 @@ func TestWithoutMutex(t *testing.T) {
 			for counter = 0; counter < 5; counter++ {
 				fmt.Printf("goroutine: %d, counter = %d \n", i, counter)
 			}
-			done <- true
+			done <- struct{}{}
 		}()
 	}
 	for i := 0; i < 3; i++ {

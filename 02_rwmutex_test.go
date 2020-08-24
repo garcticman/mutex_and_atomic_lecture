@@ -79,6 +79,7 @@ func RWMutex(b *testing.B) {
 	for i := uint64(0); i < goroutineCount; i++ {
 		i := i
 		go func() {
+
 			example.Lock()
 			example.someState["name"+strconv.FormatUint(i, 10)] = i
 			example.Unlock()

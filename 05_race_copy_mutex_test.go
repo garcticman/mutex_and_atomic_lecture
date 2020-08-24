@@ -48,7 +48,7 @@ func NewForecasterShared(city string) *forecasterShared {
 	}
 }
 
-func (f forecasterShared) getCity() string {
+func (f *forecasterShared) getCity() string {
 	f.cityMu.RLock()
 	fmt.Printf("RLock %p\n", &f.cityMu)
 	defer f.cityMu.RUnlock()
