@@ -2,22 +2,43 @@ package main
 
 import (
 	"fmt"
-	"sync/atomic"
+	"sync"
 	"testing"
+	"time"
 )
 
-func TestAtomicUint(t *testing.T) {
-	var n uint64
+func TestDeferUnlock(t *testing.T) {
+	mutex := sync.Mutex{}
+	value := 0
 
-	atomic.AddUint64(&n, 100)
-	fmt.Println(n)
-	atomic.AddUint64(&n, ^uint64(10 - 1))
-	fmt.Println(n)
-	old := atomic.SwapUint64(&n, 100)
-	fmt.Println(n, old)
+	for i := 0; i < 100; i++ {
+		i := i
+		go func() {
+			mutex.Lock()
+			defer mutex.Unlock()
 
-	swapped := atomic.CompareAndSwapUint64(&n, 100, 90)
-	fmt.Println(swapped, n)
-	swapped = atomic.CompareAndSwapUint64(&n, 100, 100)
-	fmt.Println(swapped, n)
+			value += i
+
+			returnFunc := func() {
+				fmt.Println(value)
+				return
+			}
+
+			if value > 4000 {
+				returnFunc()
+			}
+			if i > 50 && i < 60 {
+				returnFunc()
+			}
+			if value == i {
+				returnFunc()
+			}
+			if value > 10 && value < 20 {
+				value += i
+				return
+			}
+		}()
+	}
+
+	time.Sleep(time.Second * 2)
 }

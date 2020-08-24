@@ -7,11 +7,6 @@ import (
 	"testing"
 )
 
-type job struct {
-	name string
-	sum  int
-}
-
 // race example
 func TestWithoutMutex(t *testing.T) {
 	done := make(chan bool, 3)
